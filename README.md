@@ -15,3 +15,11 @@ to generate an amp and apply it to a vanilla repository war file. Change the pom
     <alfresco.version>5.1</alfresco.version>
     <alfrescoRepoVersionMin>5.0.0</alfrescoRepoVersionMin>
     <alfrescoRepoVersionMax>5.99</alfrescoRepoVersionMax>
+
+Send an event using a REST call e.g:
+
+    POST http://localhost:8080/alfresco/api/-default-/private/alfresco/versions/1/eventtest
+
+    {
+        "message":"Matt"
+    }
