@@ -1,0 +1,28 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:camel="http://camel.apache.org/schema/spring"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- Contains some beans for use in message consumption -->
+    <alias name="alfrescoCamelContext" alias="alfrescoServiceCamelContext"/>
+    <import resource="classpath:services-common-messaging-context.xml"/>
+
+    <bean id="camelRequiredTxn" class="org.apache.camel.spring.spi.SpringTransactionPolicy">
+      <property name="transactionManager" ref="messagingTransactionManager"/>
+      <property name="propagationBehaviorName" value="PROPAGATION_REQUIRED"/>
+    </bean>
+
+    <bean id="eventListener" class="org.alfresco.repo.events.EventListener">
+    </bean>
+
+    <bean id="eventGenerator" class="org.alfresco.repo.events.CamelEventGenerator">
+        <property name="producer" ref="camelProducerTemplate" />
+        <property name="endpoint" value="direct-vm:alfresco.events" />
+        <property name="objectMapper" ref="messagingObjectMapper"/>
+    </bean>
+
+</beans>

@@ -1,0 +1,27 @@
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:camel="http://camel.apache.org/schema/spring"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.0.xsd
+       http://camel.apache.org/schema/spring http://camel.apache.org/schema/spring/camel-spring.xsd
+       http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <import resource="classpath:alfresco/module/org_alfresco_event_example/api-context.xml" />
+ 
+     <!-- Expose the eventGenerator bean from Messaging subsystem for use outside of the subsytem -->
+    <bean id="eventGenerator" class="org.alfresco.repo.management.subsystems.SubsystemProxyFactory">
+        <property name="sourceApplicationContextFactory">
+            <ref bean="Messaging" />
+        </property>
+        <property name="sourceBeanName">
+            <value>eventGenerator</value>
+        </property>
+        <property name="interfaces">
+            <list>
+                <value>org.alfresco.repo.events.EventGenerator</value>
+            </list>
+        </property>
+    </bean>
+
+</beans>
